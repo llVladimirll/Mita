@@ -5,7 +5,12 @@ import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 
 export default function Gallery() {
-    const [selectedImage, setSelectedImage] = useState(null)
+    const [selectedImage, setSelectedImage] = useState<{
+        src: string;
+        width: number;
+        height: number;
+    } | null>(null);
+
 
     const images = [
         { src: "/images/1.jpeg", width: 300, height: 400 },
@@ -20,20 +25,21 @@ export default function Gallery() {
 
     useEffect(() => {
         if (selectedImage) {
-            document.body.style.overflow = "hidden"
+            document.body.style.overflow = "hidden";
         } else {
-            document.body.style.overflow = ""
+            document.body.style.overflow = "";
         }
 
-        const handleKeyDown = (event) => {
+        const handleKeyDown = (event: KeyboardEvent) => {  // Change here
             if (event.key === "Escape") {
-                setSelectedImage(null)
+                setSelectedImage(null);
             }
-        }
+        };
 
-        window.addEventListener("keydown", handleKeyDown)
-        return () => window.removeEventListener("keydown", handleKeyDown)
-    }, [selectedImage])
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [selectedImage]);
+
 
     return (
         <section id="gallery" className="py-12 sm:py-20 bg-black">
